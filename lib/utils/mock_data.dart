@@ -9,6 +9,12 @@ const Company _rumahMakanSari =
     Company(id: 5, name: 'Rumah Makan Sari', isVerified: false);
 const Company _binaCipta =
     Company(id: 6, name: 'PT Bina Cipta Mandiri', isVerified: true);
+const Company _apotekSehat =
+    Company(id: 7, name: 'Apotek Sehat Sentosa', isVerified: true);
+const Company _klinikHarapan =
+    Company(id: 8, name: 'Klinik Pratama Harapan', isVerified: true);
+const Company _bengkelMajuMotor =
+    Company(id: 9, name: 'Bengkel Maju Motor', isVerified: false);
 const List<Job> mockJobs = [
   Job(
     id: 1,
@@ -106,7 +112,92 @@ const List<Job> mockJobs = [
     requiredSkills: ['Komunikasi', 'Pelayanan'],
     matchScore: 79,
   ),
+  Job(
+    id: 9,
+    title: 'Staf Keuangan Junior',
+    company: _binaCipta,
+    location: 'Medan Petisah',
+    salaryMin: 4200000,
+    salaryMax: 5200000,
+    benefits: ['BPJS', 'Bonus tahunan'],
+    description:
+        'Mencatat transaksi harian, menyusun rekap kas, dan membantu laporan bulanan.',
+    requiredSkills: ['Excel', 'Akuntansi'],
+    matchScore: 90,
+  ),
+  Job(
+    id: 10,
+    title: 'Kasir Apotek',
+    company: _apotekSehat,
+    location: 'Medan Selayang',
+    salaryMin: 3300000,
+    salaryMax: 3900000,
+    benefits: ['BPJS', 'Seragam'],
+    description:
+        'Melayani pembayaran obat bebas, mencatat penjualan harian, dan merapikan etalase.',
+    requiredSkills: ['Kasir', 'Komunikasi'],
+    matchScore: 83,
+  ),
+  Job(
+    id: 11,
+    title: 'Staf Pembukuan Toko',
+    company: _tokoBerkah,
+    location: 'Medan Johor',
+    salaryMin: 3600000,
+    salaryMax: 4300000,
+    benefits: ['Transport', 'THR'],
+    description:
+        'Mencatat pemasukan dan pengeluaran toko serta menyusun rekap mingguan.',
+    requiredSkills: ['Excel', 'Administrasi'],
+    matchScore: 87,
+  ),
+  Job(
+    id: 12,
+    title: 'Resepsionis Klinik',
+    company: _klinikHarapan,
+    location: 'Medan Tuntungan',
+    salaryMin: 3800000,
+    salaryMax: 4600000,
+    benefits: ['BPJS', 'Asuransi'],
+    description:
+        'Menerima pasien, mengatur jadwal kunjungan, dan mengelola berkas pendaftaran.',
+    requiredSkills: ['Komunikasi', 'Administrasi'],
+    matchScore: 77,
+  ),
+  Job(
+    id: 13,
+    title: 'Kasir Kafe',
+    company: _kopiTepian,
+    location: 'Medan Baru',
+    salaryMin: 3100000,
+    salaryMax: 3700000,
+    benefits: ['Makan siang', 'Tip'],
+    description:
+        'Mengoperasikan mesin kasir, mencatat pesanan, dan menutup kas harian.',
+    requiredSkills: ['Kasir', 'Komunikasi'],
+    matchScore: 86,
+  ),
+  Job(
+    id: 14,
+    title: 'Teknisi Bengkel Pemula',
+    company: _bengkelMajuMotor,
+    location: 'Medan Amplas',
+    salaryMin: 2800000,
+    salaryMax: 3500000,
+    benefits: ['Makan siang'],
+    description:
+        'Membantu servis ringan sepeda motor dan merapikan peralatan bengkel.',
+    requiredSkills: ['Mekanik', 'Ketelitian'],
+    matchScore: 55,
+  ),
 ];
+
+/// Rekomendasi untuk carousel Beranda: 6 lowongan dengan skor kecocokan
+/// tertinggi. Daftar ini tidak dipengaruhi pencarian.
+final List<Job> mockRecommendedJobs = (List<Job>.of(mockJobs)
+      ..sort((a, b) => b.matchScore.compareTo(a.matchScore)))
+    .take(6)
+    .toList();
 
 const UserProfile mockUser = UserProfile(
   name: 'Dina Pratama',
