@@ -108,7 +108,6 @@ const List<Job> mockJobs = [
   ),
 ];
 
-/// Pengguna contoh yang dianggap sedang login.
 const UserProfile mockUser = UserProfile(
   name: 'Dina Pratama',
   headline: 'Pencari kerja',

@@ -1,70 +1,77 @@
 import 'package:flutter/material.dart';
 
 import '../utils/app_destinations.dart';
-import 'app_brand.dart';
 
-/// Drawer Material 3 yang hanya dipakai di layar kecil (compact).
-/// Di layar lebar, fungsinya digantikan NavigationRail.
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
     super.key,
     required this.selectedIndex,
     required this.onDestinationSelected,
+    required this.onLogout, // 1. TAMBAHKAN PARAMETER INI DI CONSTRUCTOR
   });
 
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
+  final VoidCallback onLogout; // 2. DEKLARASIKAN VARIABELNYA
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return NavigationDrawer(
-      selectedIndex: selectedIndex,
-      onDestinationSelected: (index) {
-        // Tutup drawer dulu, lalu pindah halaman.
-        Navigator.of(context).pop();
-        onDestinationSelected(index);
-      },
-      children: [
-        // Inset 28 mengikuti spesifikasi Material 3 agar sejajar dengan ikon menu.
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 24, 16, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const AppBrand(),
-              const SizedBox(height: 8),
-              Text(
-                'Cari pekerjaan layak untuk semua',
-                style: textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+    return Drawer(
+      // Gunakan Column agar kita bisa meletakkan tombol Logout di paling bawah
+      child: Column(
+        children: [
+          // Header Drawer (opsional, sesuaikan dengan punyamu)
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: const Center(
+              child: Text(
+                'Meweng',
+                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
               ),
-            ],
-          ),
-        ),
-        for (final destination in appDestinations)
-          NavigationDrawerDestination(
-            icon: Icon(destination.icon),
-            selectedIcon: Icon(destination.selectedIcon),
-            label: Text(destination.label),
-          ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(28, 16, 28, 8),
-          child: Divider(),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(28, 0, 16, 16),
-          child: Text(
-            'SDG 8 · Pekerjaan Layak dan Pertumbuhan Ekonomi',
-            style: textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
             ),
           ),
-        ),
-      ],
+
+          // Daftar Menu Navigasi (Gunakan Expanded agar bisa di-scroll)
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                for (int i = 0; i < appDestinations.length; i++)
+                  ListTile(
+                    leading: Icon(
+                      selectedIndex == i
+                          ? appDestinations[i].selectedIcon
+                          : appDestinations[i].icon,
+                    ),
+                    title: Text(appDestinations[i].label),
+                    selected: selectedIndex == i,
+                    onTap: () {
+                      Navigator.pop(context); // Tutup drawer
+                      onDestinationSelected(i); // Pindah halaman
+                    },
+                  ),
+              ],
+            ),
+          ),
+
+          // 3. TOMBOL LOGOUT DI PALING BAWAH
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text(
+              'Keluar Akun',
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
+            onTap: () {
+              Navigator.pop(context); // Tutup drawer dulu
+              onLogout(); // Panggil fungsi logout yang dikirim dari MainPage
+            },
+          ),
+          const SizedBox(height: 16), // Jarak aman dari bawah layar
+        ],
+      ),
     );
   }
 }

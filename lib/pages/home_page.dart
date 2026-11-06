@@ -4,12 +4,11 @@ import '../components/job_card.dart';
 import '../components/placeholder_section.dart';
 import '../utils/app_theme.dart';
 import '../utils/mock_data.dart';
-
 /// Beranda. Masih placeholder (dikerjakan di Fitur 3), tetapi sudah menampilkan
 /// 3 lowongan dari mock data untuk membuktikan JobCard dan data contoh berfungsi.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;

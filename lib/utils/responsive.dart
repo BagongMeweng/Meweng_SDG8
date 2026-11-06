@@ -7,7 +7,6 @@ enum ScreenSize {
   /// Lebar < 600dp (ponsel potret).
   compact,
 
-  /// Lebar 600-839dp (ponsel landscape, tablet kecil).
   medium,
 
   /// Lebar >= 840dp (tablet besar, desktop).
@@ -24,6 +23,10 @@ class Responsive {
 
   /// Lebar maksimum konten supaya teks tidak terlalu melebar di layar besar.
   static const double contentMaxWidth = 840;
+
+  /// Lebar maksimum untuk halaman berisi form (login, register, dll.)
+  /// agar kolom isian tidak terlalu lebar di tablet.
+  static const double formMaxWidth = 480;
 
   /// Menentukan kelas ukuran dari sebuah lebar (dipakai bersama LayoutBuilder).
   static ScreenSize fromWidth(double width) {
@@ -98,16 +101,24 @@ class ResponsiveBuilder extends StatelessWidget {
 
 /// Membatasi lebar konten dan menempatkannya di tengah pada layar lebar.
 class ResponsiveCenter extends StatelessWidget {
-  const ResponsiveCenter({super.key, required this.child});
+  const ResponsiveCenter({
+    super.key,
+    required this.child,
+    this.maxWidth = Responsive.contentMaxWidth,
+  });
 
   final Widget child;
+
+  /// Lebar maksimum konten. Bawaan: [Responsive.contentMaxWidth].
+  /// Halaman form memakai [Responsive.formMaxWidth].
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: Responsive.contentMaxWidth),
+        constraints: BoxConstraints(maxWidth: maxWidth),
         child: child,
       ),
     );
